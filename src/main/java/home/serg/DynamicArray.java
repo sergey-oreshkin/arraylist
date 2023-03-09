@@ -3,6 +3,27 @@ package home.serg;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * <p>Dynamic array implementation of the List interface.Implements all optional list operations,
+ * except {@link #listIterator(int) listIterator(int)},{@link #listIterator() listIterator}
+ * and {@link #addAll(int, Collection) addAll(int,Collection)}.
+ * Permits all elements, including null.
+ *
+ * <p>Each {@code DynamicArray} instance has a <i>capacity</i>.  The capacity is
+ * the size of the array used to store the elements in the list.  It is always
+ * at least as large as the list size.  As elements are added to an DynamicArray,
+ * its capacity grows automatically by a constant value. If capacity grow over {@link Integer#MAX_VALUE}
+ * then will be throw {@link OutOfMemoryError}
+ *
+ * <p><strong>Note that this implementation is not synchronized.</strong>
+ *
+ * <p> Also implements {@link RandomAccess RandomAccess}.
+ *
+ * @param <E> - the type of elements in this list
+ * @see List
+ * @see RandomAccess
+ */
+
 public class DynamicArray<E> implements List<E>, RandomAccess {
     public static final int INITIAL_CAPACITY = 10;
     public static final int DEFAULT_GROW_SIZE = 10;
@@ -10,11 +31,31 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
     private Object[] elements;
     private int size;
 
+    /**
+     * Sort the list into ascending order. Allow null as list element.
+     * List elements must implement {@link Comparable} to be compared.
+     *
+     * @param list - list to be sorted
+     * @param <T>  - the type of elements in this list
+     */
     public static <T extends Comparable<T>> void sort(List<T> list) {
         if (list.size() < 2) return;
         quickSort(list, 0, list.size() - 1);
     }
 
+    /**
+     * Sorts the specified range of the list into ascending order.
+     * Allows null values. Null is always less then any other value.
+     * List elements must implement {@link Comparable} to be compared.
+     * The range to be sorted extends from the index {@code from}, inclusive,
+     * to the index {@code to}, inclusive. If {@code from == to} the range to be sorted is empty.
+     * Sorting algorithm is Quick Sort.
+     *
+     * @param list - list to be sorted
+     * @param from - start position in the list to sort
+     * @param to   - end position in the list to sort
+     * @param <T>  - the type of elements in this list
+     */
     private static <T extends Comparable<T>> void quickSort(List<T> list, int from, int to) {
         if (from >= to) return;
         int pivotIndex = from;
@@ -38,6 +79,14 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
         quickSort(list, leftIndex + 1, to);
     }
 
+    /**
+     * Swap two elements in the list
+     *
+     * @param list   - list which the elements will be swapped
+     * @param first  - index of first element
+     * @param second - index of second element
+     * @param <T>    - the type of elements in this list
+     */
     private static <T extends Comparable<T>> void swap(List<T> list, int first, int second) {
         T tmp = list.get(first);
         list.set(first, list.get(second));
@@ -49,9 +98,6 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
         elements = new Object[INITIAL_CAPACITY];
     }
 
-    /**
-     * @return
-     */
     @Override
     public int size() {
         return size;

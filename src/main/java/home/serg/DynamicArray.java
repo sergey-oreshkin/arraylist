@@ -102,6 +102,16 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
     }
 
     /**
+     * Constructor with initial capacity. If capacity is negative or zero then will be applied default capacity
+     *
+     * @param capacity - initial capacity
+     */
+    public DynamicArray(int capacity) {
+        size = 0;
+        elements = new Object[capacity > 0 ? capacity : INITIAL_CAPACITY];
+    }
+
+    /**
      * @return the number of elements in this list
      */
     @Override

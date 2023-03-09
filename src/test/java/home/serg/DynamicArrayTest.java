@@ -2,7 +2,6 @@ package home.serg;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,13 +11,11 @@ class DynamicArrayTest {
     @Test
     void sortFourElementsList() {
         DynamicArray<Integer> ordinaryList = new DynamicArray<>();
-        List<Integer> given = new ArrayList<>(List.of(1, 3, 7, 2));
-        ordinaryList.addAll(given);
+        ordinaryList.addAll(List.of(1, 3, 7, 2));
 
         DynamicArray.sort(ordinaryList);
-        given.sort(Integer::compareTo);
 
-        assertEquals(given, ordinaryList);
+        assertEquals(List.of(1, 2, 3, 7), ordinaryList);
     }
 
     @Test
@@ -38,6 +35,19 @@ class DynamicArrayTest {
         DynamicArray.sort(emptyList);
 
         assertTrue(emptyList.isEmpty());
+    }
+
+    @Test
+    void sortNullValuesList() {
+        DynamicArray<Integer> list = new DynamicArray<>();
+        list.add(1);
+        list.add(null);
+        list.add(null);
+        list.add(3);
+
+        DynamicArray.sort(list);
+
+        assertEquals("[null, null, 1, 3]", list.toString());
     }
 
     @Test

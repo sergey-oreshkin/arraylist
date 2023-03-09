@@ -4,24 +4,33 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DynamicArray<E> implements List<E>, RandomAccess {
-    public static final int DEFAULT_INITIAL_CAPACITY = 10;
+    public static final int INITIAL_CAPACITY = 10;
     public static final int DEFAULT_GROW_SIZE = 10;
 
     private Object[] elements;
     private int size;
 
-    public static <T extends Comparable<T>> void sort(DynamicArray<T> list) {
+    public static <T extends Comparable<T>> void sort(List<T> list) {
         if (list.size() < 2) return;
         quickSort(list, 0, list.size() - 1);
     }
 
-    private static <T extends Comparable<T>> void quickSort(DynamicArray<T> list, int from, int to) {
+    private static <T extends Comparable<T>> void quickSort(List<T> list, int from, int to) {
         if (from >= to) return;
-        int pivotIndex = from; //redundant, but for readability
+        int pivotIndex = from;
         int leftIndex = from;
         int rightIndex = from + 1;
+        while (list.get(pivotIndex) == null && rightIndex <= to) {
+            swap(list, ++leftIndex, rightIndex++);
+            pivotIndex++;
+        }
+        if (rightIndex >= to) return;
         while (rightIndex <= to) {
-            if (list.get(pivotIndex).compareTo(list.get(rightIndex)) >= 0) swap(list, ++leftIndex, rightIndex);
+            if (list.get(rightIndex) == null) {
+                swap(list, ++leftIndex, rightIndex);
+            } else if (list.get(pivotIndex).compareTo(list.get(rightIndex)) >= 0) {
+                swap(list, ++leftIndex, rightIndex);
+            }
             rightIndex++;
         }
         swap(list, pivotIndex, leftIndex);
@@ -29,7 +38,7 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
         quickSort(list, leftIndex + 1, to);
     }
 
-    private static <T extends Comparable<T>> void swap(DynamicArray<T> list, int first, int second) {
+    private static <T extends Comparable<T>> void swap(List<T> list, int first, int second) {
         T tmp = list.get(first);
         list.set(first, list.get(second));
         list.set(second, tmp);
@@ -37,9 +46,12 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
 
     public DynamicArray() {
         size = 0;
-        elements = new Object[DEFAULT_INITIAL_CAPACITY];
+        elements = new Object[INITIAL_CAPACITY];
     }
 
+    /**
+     * @return
+     */
     @Override
     public int size() {
         return size;
@@ -144,7 +156,7 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
 
     @Override
     public void clear() {
-        elements = new Object[DEFAULT_INITIAL_CAPACITY];
+        elements = new Object[INITIAL_CAPACITY];
         size = 0;
     }
 
@@ -186,16 +198,28 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
 
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (Objects.equals(o, elements[i])) return i;
+        if (o == null) {
+            for (int i = 0; i < size; i++) {
+                if (elements[i] == null) return i;
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (Objects.equals(o, elements[i])) return i;
+            }
         }
         return -1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = size - 1; i >= 0; i--) {
-            if (Objects.equals(o, elements[i])) return i;
+        if (o == null) {
+            for (int i = size - 1; i >= 0; i--) {
+                if (elements[i] == null) return i;
+            }
+        } else {
+            for (int i = size - 1; i >= 0; i--) {
+                if (Objects.equals(o, elements[i])) return i;
+            }
         }
         return -1;
     }
@@ -223,10 +247,10 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (int i = 0; i < size - 1; i++) {
-            sb.append(elements[i].toString());
+            sb.append(elements[i] == null ? "null" : elements[i].toString());
             sb.append(", ");
         }
-        sb.append(elements[size - 1]);
+        sb.append(elements[size - 1] == null ? "null" : elements[size - 1]);
         sb.append("]");
         return sb.toString();
     }

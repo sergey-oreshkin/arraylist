@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
  * <p>Each {@code DynamicArray} instance has a <i>capacity</i>.  The capacity is
  * the size of the array used to store the elements in the list.  It is always
  * at least as large as the list size.  As elements are added to an DynamicArray,
- * its capacity grows automatically by a constant value. If capacity grow over {@link Integer#MAX_VALUE}
- * then will be throw {@link OutOfMemoryError}
+ * its capacity grows automatically by default capacity multiplier. (75%)
+ * If capacity grow over {@link Integer#MAX_VALUE} then will be throw {@link OutOfMemoryError}
  *
  * <p><strong>Note that this implementation is not synchronized.</strong>
  *
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 public class DynamicArray<E> implements List<E>, RandomAccess {
     public static final int INITIAL_CAPACITY = 10;
-    public static final int DEFAULT_GROW_SIZE = 10;
+    public static final float DEFAULT_CAPACITY_MULTIPLIER = 1.75f;
 
     private Object[] elements;
     private int size;
@@ -180,8 +180,9 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
      * @throws OutOfMemoryError if new capacity more then {@link Integer#MAX_VALUE}
      */
     private void grow() {
-        if (size + DEFAULT_GROW_SIZE < 0) throw new OutOfMemoryError("Index range overflowed");
-        Object[] newArray = new Object[size + DEFAULT_GROW_SIZE];
+        if (size >= Integer.MAX_VALUE - 1) throw new OutOfMemoryError("Index range overflowed");
+        int newCapacity = (size * DEFAULT_CAPACITY_MULTIPLIER) > Integer.MAX_VALUE ? Integer.MAX_VALUE - 1 : (int) (size * DEFAULT_CAPACITY_MULTIPLIER);
+        Object[] newArray = new Object[newCapacity];
         System.arraycopy(elements, 0, newArray, 0, size);
         elements = newArray;
     }

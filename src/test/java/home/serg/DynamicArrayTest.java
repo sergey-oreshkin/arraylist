@@ -2,6 +2,7 @@ package home.serg;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DynamicArrayTest {
 
     @Test
-    void sortFourElementsList() {
+    void sortFourElementsListTest() {
         DynamicArray<Integer> ordinaryList = new DynamicArray<>();
         ordinaryList.addAll(List.of(1, 3, 7, 2));
 
@@ -19,7 +20,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void sortSingleElementList() {
+    void sortSingleElementListTest() {
         DynamicArray<Integer> singleElementList = new DynamicArray<>();
         singleElementList.add(1);
 
@@ -29,7 +30,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void sortEmptyList() {
+    void sortEmptyListTest() {
         DynamicArray<Integer> emptyList = new DynamicArray<>();
 
         DynamicArray.sort(emptyList);
@@ -38,7 +39,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void sortNullValuesList() {
+    void sortNullValuesListTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.add(1);
         list.add(null);
@@ -51,7 +52,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void size() {
+    void sizeTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
 
         assertEquals(0, list.size(), "Size is not zero for new instance");
@@ -67,7 +68,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void isEmpty() {
+    void isEmptyTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
 
         assertTrue(list.isEmpty());
@@ -78,7 +79,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void contains() {
+    void containsTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.add(5);
         list.add(3);
@@ -87,7 +88,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void toArray() {
+    void toArrayTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.add(5);
 
@@ -95,7 +96,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void add() {
+    void addTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.add(5);
 
@@ -103,7 +104,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void removeByValue() {
+    void removeByValueTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.add(5);
         list.add(3);
@@ -113,7 +114,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void containsAll() {
+    void containsAllTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(1, 2, 3));
 
@@ -122,7 +123,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void addAll() {
+    void addAllTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
 
         list.addAll(List.of(1, 2, 3));
@@ -131,7 +132,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void removeAll() {
+    void removeAllTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(1, 2, 3));
         boolean isRemoved = list.removeAll(List.of(1, 3));
@@ -145,7 +146,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void retainAll() {
+    void retainAllTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(1, 2, 3, 4, 5));
         list.retainAll(List.of(2, 4, 7));
@@ -154,7 +155,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void clear() {
+    void clearTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(1, 2, 3));
 
@@ -164,7 +165,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void get() {
+    void getTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(5, 2));
 
@@ -172,7 +173,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void set() {
+    void setTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(1, 2));
 
@@ -182,7 +183,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void addToIndex() {
+    void addToIndexTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(1, 2));
 
@@ -192,7 +193,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void removeByIndex() {
+    void removeByIndexTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(1, 2, 3));
 
@@ -202,7 +203,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void indexOf() {
+    void indexOfTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(5, 2, 3, 2));
 
@@ -210,7 +211,7 @@ class DynamicArrayTest {
     }
 
     @Test
-    void lastIndexOf() {
+    void lastIndexOfTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(3, 2, 3, 2));
 
@@ -218,10 +219,20 @@ class DynamicArrayTest {
     }
 
     @Test
-    void subList() {
+    void subListTest() {
         DynamicArray<Integer> list = new DynamicArray<>();
         list.addAll(List.of(5, 2, 3, 2));
 
         assertEquals(List.of(3, 2), list.subList(2, 3));
+    }
+
+    @Test
+    void toTypedArrayTest() {
+        DynamicArray<Integer> list = new DynamicArray<>();
+        list.addAll(List.of(5, 2, 3, 2));
+
+        Integer[] integers = list.toArray(new Integer[0]);
+
+        assertEquals("[5, 2, 3, 2]", Arrays.toString(integers));
     }
 }

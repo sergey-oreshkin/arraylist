@@ -347,9 +347,10 @@ public class DynamicArray<E> implements List<E>, RandomAccess {
     @Override
     public void add(int index, E element) {
         checkIndexOrThrowException(index);
-        if (++size > elements.length) grow();
+        if (size + 1 > elements.length) grow();
         System.arraycopy(elements, index, elements, index + 1, size - index);
         elements[index] = element;
+        size++;
     }
 
     /**

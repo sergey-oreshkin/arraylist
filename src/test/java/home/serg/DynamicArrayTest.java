@@ -235,4 +235,16 @@ class DynamicArrayTest {
 
         assertEquals("[5, 2, 3, 2]", Arrays.toString(integers));
     }
+
+    @Test
+    void addToPosInLoopTest() {
+        DynamicArray<Object> objects = new DynamicArray<>();
+        objects.add(new Object());
+
+        for (int i = 0; i < 999; i++) {
+            objects.add(0, new Object());
+        }
+
+        assertEquals(1000, objects.size());
+    }
 }

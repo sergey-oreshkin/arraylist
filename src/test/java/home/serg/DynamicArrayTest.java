@@ -239,12 +239,15 @@ class DynamicArrayTest {
     @Test
     void addToPosInLoopTest() {
         DynamicArray<Object> objects = new DynamicArray<>();
-        objects.add(new Object());
+
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            objects.add(5, new Object());
+        });
 
         for (int i = 0; i < 999; i++) {
             objects.add(0, new Object());
         }
 
-        assertEquals(1000, objects.size());
+        assertEquals(999, objects.size());
     }
 }
